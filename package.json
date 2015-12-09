@@ -1,0 +1,26 @@
+{
+  "name": "flakes",
+  "version": "1.0.0",
+  "description": "snow flakes in spaaaaaace",
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-uglify": "^0.9.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benpurdy/js-ray-caster.git"
+  },
+  "keywords": [
+    "javascript",
+    "webgl",
+    "graphics"
+  ],
+  "author": "Ben Purdy",
+  "bugs": {
+    "url": "https://github.com/benpurdy/flakes/issues"
+  },
+  "homepage": "https://github.com/benpurdy/flakes"
+}
