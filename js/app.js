@@ -1,3 +1,5 @@
+"use strict";
+
 var core = {
 	"camera" : null,
 	"scene" : null,
@@ -9,6 +11,11 @@ var flakeGeom;
 var flakeMaterial;
 var flakeShardsMaterial;
 var flakeWireMaterial;
+
+var particleTexture;
+var frostTexture;
+
+var snow = new THREE.Object3D();
 
 function addPointLight(x, y, z, color) {
 	var light = new THREE.PointLight({"color":color});
@@ -45,7 +52,7 @@ function initializeScene() {
 	 	depthTest:false,
 	 	depthWrite:false,
 	 	blending:THREE.AdditiveBlending,
-	 	specularMap: THREE.ImageUtils.loadTexture( "images/frost_normalized.jpg" ),
+	 	specularMap: frostTexture,
 	 	bumpScale:0.1
 	});
  
@@ -359,10 +366,7 @@ function updateCamera() {
 	var cameraPathAmount = new Date().getTime() - cameraStartTime;
 	cameraProgress = cameraPathAmount / (cameraPathDuration * 1000);
 	var timeRemaining = (cameraPathDuration * 1000) - cameraPathAmount;
-	
-	//if(!destroying && (cameraPhase >= cameraPhases.length)) {
-	//  console.log("time till removal: " + timeRemaining);
-	//}
+
 	
 	if((timeRemaining < 4000) && (cameraPhase >= cameraPhases.length) && !destroying) {
 		deconstructFlake();
@@ -458,9 +462,33 @@ function startEndCameraPath(){
 	);
 }
 
-function initialize() {
+function loadTextures(){
 
-	initializeCore();
+	var texturesRemaining = 2;
+	var loader = new THREE.TextureLoader();
+
+	loader.load(
+		'images/frost_normalized.jpg',
+		function ( texture ) {
+			frostTexture = texture;
+			texturesRemaining--;
+			if(texturesRemaining <= 0){
+				contentLoaded();
+			}
+		});
+
+	loader.load(
+		'images/dot.png',
+		function ( texture ) {
+			particleTexture = texture;
+			texturesRemaining--;
+			if(texturesRemaining <= 0){
+				contentLoaded();
+			}
+		});
+}
+
+function contentLoaded() {
 	initializeScene();
 	initParticles();
 	buildFlake();
@@ -476,13 +504,14 @@ function initialize() {
 	render();
 }
 
-var snow = new THREE.Object3D();
+function initialize() {
+	initializeCore();
+	loadTextures();
+}
 
 function initParticles() {
 
 	var geometry = new THREE.Geometry();
-
-	var sprite1 = THREE.ImageUtils.loadTexture( "images/dot.png" );
 
 	for ( i = 0; i < 5000; i ++ ) {
 
@@ -505,21 +534,21 @@ function initParticles() {
 	
 	var materials = [];
 
-	for ( i = 0; i < parameters.length; i ++ ) {
+	for ( var i = 0; i < parameters.length; i ++ ) {
 
-		color  = parameters[i][0];
-		size   = parameters[i][1];
+		var color  = parameters[i][0];
+		var size   = parameters[i][1];
 
 		materials[i] = new THREE.PointsMaterial( {
 		 size: size*0.25, 
 		 blending: THREE.AdditiveBlending, 
 		 depthTest: false, 
-		 map:sprite1,
+		 map: particleTexture,
 		 transparent : true,
 		 opacity:0.4
 		} );
 
-		particles = new THREE.Points( geometry, materials[i] );
+		var particles = new THREE.Points( geometry, materials[i] );
 
 		particles.rotation.x = Math.random() * 6;
 		particles.rotation.y = Math.random() * 6;

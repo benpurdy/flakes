@@ -5,12 +5,12 @@ module.exports = function(grunt) {
     uglify: {
       dist: {
         options:{
-          sourceMap: false
+          sourceMap: true
         },
         files: {
           'js/app.min.js': [
             'js/three.min.js', 
-            'js/app.js']
+            'js/app.js' ]
         }
       }
     },
