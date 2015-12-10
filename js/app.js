@@ -503,10 +503,10 @@ function contentLoaded() {
 
 	// why... why are browsers so broken.
 	window.addEventListener("orientationchange", function() {
-		window.getElementById("content").style.display = "none";
+		document.getElementById("content").style.display = "none";
 	  setTimeout(function() {
       resizeViewport(window.innerWidth, window.innerHeight);
-      window.getElementById("content").style.display = "";
+      document.getElementById("content").style.display = "";
     }, 500);
     
 	}, false);

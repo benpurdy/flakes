@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     uglify: {
       dist: {
         options:{
-          sourceMap: true
+          sourceMap: false
         },
         files: {
           'js/app.min.js': [
