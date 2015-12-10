@@ -9,8 +9,10 @@
 </head>
 <body>
 	<a href="http://www.glowbox.io"><img id="logo" src="images/glowbox.png" width="100" title="Glowbox Logo" alt="Glowbox Logo" /></a>
-	<div id="content"></div>
-	<audio src="audio/space_lq.mp3" autoplay="true" loop="loop"/>
+	<div id="content">
+		<div id="webGlNotSupported" style="display:none;">This experiment requires webGL</div>
+	</div>
+	<audio src="" id="background-audio" autoplay="true" loop="loop"/>
 	<script src="js/app.min.js"></script>
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

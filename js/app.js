@@ -492,6 +492,11 @@ function contentLoaded() {
 	initializeScene();
 	initParticles();
 	buildFlake();
+
+	var audio = document.getElementById("background-audio");
+	audio.src = "audio/space_lq.mp3";
+	audio.load();
+	audio.play();
 	
 	core.scene.add(flake);
 	
@@ -514,9 +519,23 @@ function contentLoaded() {
 	render();
 }
 
+function webGLSupported() {
+	//return false;
+	try {
+		var canvas = document.createElement( 'canvas' ); return !! ( window.WebGLRenderingContext && ( canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) ) );
+	} catch ( e ) {
+		return false;
+	}
+}
+
 function initialize() {
-	initializeCore();
-	loadTextures();
+
+	if(webGLSupported()){
+		initializeCore();
+		loadTextures();
+	} else {
+		document.getElementById("webGlNotSupported").style.display = "block";
+	}
 }
 
 function initParticles() {
