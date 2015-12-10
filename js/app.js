@@ -31,7 +31,7 @@ function initializeCore() {
 	
 	core.camera.target = new THREE.Vector3();
 
-	document.body.appendChild(core.renderer.domElement);
+	document.getElementById("content").appendChild(core.renderer.domElement);
 }
 
 
@@ -500,6 +500,16 @@ function contentLoaded() {
 	window.addEventListener('resize', function() {
 		resizeViewport(window.innerWidth, window.innerHeight);
 	});
+
+	// why... why are browsers so broken.
+	window.addEventListener("orientationchange", function() {
+		window.getElementById("content").style.display = "none";
+	  setTimeout(function() {
+      resizeViewport(window.innerWidth, window.innerHeight);
+      window.getElementById("content").style.display = "";
+    }, 500);
+    
+	}, false);
 	
 	render();
 }
